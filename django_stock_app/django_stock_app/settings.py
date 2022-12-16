@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import environ
 import os
+from celery.schedules import crontab
 
 env = environ.Env(
     DEBUG=(bool, False)
@@ -39,7 +40,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'django_logic',
+    'django_filters',
     'djcelery_email',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,7 +55,8 @@ INSTALLED_APPS = [
 
 INSTALLED_EXTENSIONS = [
     'dashboard',
-    'users'
+    'users',
+    'api'
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -71,7 +77,7 @@ ROOT_URLCONF = 'django_stock_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(BASE_DIR.joinpath('templates'))],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -160,3 +166,17 @@ CELERY_RESULT_BACKEND = 'rpc://'
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 CELERY_EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+
+CELERY_BEAT_SCHEDULE = {
+      'price_db_update': {
+        'task': 'api.tasks.price_db_update',
+        'schedule': crontab(minute=0, hour=0, day_of_week='2-6'),
+        'options': {
+            'expires': 15.0
+        },
+    },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
