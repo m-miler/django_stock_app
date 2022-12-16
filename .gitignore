@@ -130,3 +130,8 @@ dmypy.json
 
 static/
 sent_emails/
+
+#Celerey schedule files
+*.bak
+*.dat
+*.dir
