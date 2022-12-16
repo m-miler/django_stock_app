@@ -1,7 +1,7 @@
 from celery import shared_task
 import datetime
-from .models.companies_model import StockCompanies
-from .serializers.stock_price_serializer import StockPricesSerializer
+from stocks.models.companies_model import StockCompanies
+from api.serializers.stock_price_serializer import StockPricesSerializer
 import requests
 
 
