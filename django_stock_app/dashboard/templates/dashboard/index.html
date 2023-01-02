@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,17 +34,18 @@
       <div class="main_container">
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
+          {% if user.is_authenticated %}
             <div class="navbar nav_title" style="border: 0;">
               <a href="" class="site_title"><span>Stock Application</span></a>
             </div>
 
             <div class="clearfix"></div>
 
-            {% if user.is_authenticated %}
+
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="media/default.jpg" alt="..." class="img-circle profile_img">
+                <img src="/media/default.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -62,13 +62,39 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
+                  <li><a><i class="fa fa-area-chart"></i> Stock Exchange Index <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'dashboard' ticker='wig20' %}">WIG20</a></li>
+                    </ul>
+                  </li>
 
+                  <li><a><i class="fa fa-money"></i> Investment Portfolio <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="">Sample Portfolio </a></li>
+                    </ul>
+                  </li>
                 </ul>
               </div>
-
             </div>
             <!-- /sidebar menu -->
-          {% endif %}
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{% url 'logout' %}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+            {% endif %}
           </div>
         </div>
 
@@ -84,7 +110,7 @@
                 {% if user.is_authenticated %}
                   <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <img src="media/default.jpg" alt="">{{ user.username }}
+                      <img src="/media/default.jpg" alt="">{{ user.username }}
                       <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -92,7 +118,6 @@
                       <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                     </ul>
                   </li>
-
                 {% else %}
                   <li class="">
                     <a href="{% url 'login' %}" class="" type="submit">Log in</a>
@@ -109,8 +134,6 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-
-
             {% if messages %}
                 {% for message in messages %}
                     <div class = "alert alert-{{ message.tags }}">
@@ -118,22 +141,24 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            {% block content %}{% endblock %}
 
+            {% block content %}
+            {% endblock %}
 
         </div>
         <!-- /page content -->
-
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
       </div>
     </div>
+
+        <!-- footer content -->
+<!--        <footer class="footer_fixed">-->
+<!--          <div class="pull-right">-->
+<!--            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>-->
+<!--          </div>-->
+<!--          <div class="clearfix"></div>-->
+<!--        </footer>-->
+        <!-- /footer content -->
+
 
     {% block script %}
     <!-- jQuery -->
@@ -174,8 +199,26 @@
     <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
 
+      <!-- Datatables -->
+    <script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+
+
     <!-- Custom Theme Scripts -->
-    <script src="{% static 'build/js/custom.min.js' %}"></script>
+    <script src="{% static 'build/js/custom.js' %}"></script>
     {% endblock %}
 
   </body>

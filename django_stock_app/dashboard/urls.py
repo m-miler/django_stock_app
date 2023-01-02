@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import home
 from django.contrib.auth.forms import UsernameField
 
 urlpatterns = [
-    path('', home, name='home-page'),
+    path('dashboard/<str:ticker>', Dashboard.as_view(), name='dashboard'),
 ]
