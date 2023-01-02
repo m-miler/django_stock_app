@@ -1,0 +1,142 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row tile_count">
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Last Price</span>
+    <div class="count">{{stock_price.open_price}} </div>
+    <span class="count_bottom"><i class="green">{{stock_price.open_price}} </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Open</span>
+    <div class="count">{{stock_price.open_price}}</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Max Day</span>
+    <div class="count green">{{stock_price.max_price}}</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Min Day</span>
+    <div class="count">{{stock_price.min_price}}</div>
+    <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Close Price </span>
+    <div class="count">{{stock_price.close_price}}</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-bar-chart"></i> Volume </span>
+    <div class="count">{{stock_price.volume}}</div>
+    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="dashboard_graph">
+
+      <div class="row x_title">
+        <div class="col-md-6">
+          <h3>{{ticker}} <small>Daily stocks prices</small></h3>
+        </div>
+        <div class="col-md-6">
+<!--          <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">-->
+<!--            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>-->
+<!--            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>-->
+<!--          </div>-->
+        </div>
+      </div>
+      <div class="col-md-9 col-sm-9 col-xs-12">
+        <div> {{chart|safe}}</div>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+        <div class="x_title">
+          <h2>Top 5 Companies</h2>
+          <div class="clearfix"></div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 col-xs-6">
+
+            <div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Ticker</th>
+                    <th>Company Name</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for top_company in top_companies %}
+                  <tr>
+                    <td><a href="{% url 'dashboard' ticker=top_company.company_abbreviation %}">{{top_company.company_abbreviation}}</a></td>
+                    <td>{{top_company.company_abbreviation.company_full_name}}</td>
+                    <td>{{top_company.close_price}}</td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+      <div class="x_title">
+        <h2>Members of {{ticker}}<small>Companies</small></h2>
+        <div class="clearfix">
+        </div>
+      </div>
+      <div class="x_content">
+        <p class="text-muted font-13 m-b-30">
+          Text
+        </p>
+        <table id="datatable" class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company Name</th>
+              <th>Price</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for company in companies %}
+            <tr>
+              <td><a href="{% url 'dashboard' ticker=company.company_abbreviation %}">{{company.company_abbreviation}}</a></td>
+              <td>{{company.company_abbreviation.company_full_name}}</td>
+              <td>{{company.max_price}}</td>
+              <td>{{company.date}}</td>
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+
+
+{% endblock %}

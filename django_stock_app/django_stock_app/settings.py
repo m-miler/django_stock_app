@@ -51,12 +51,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig'
 ]
 
 INSTALLED_EXTENSIONS = [
     'dashboard',
     'users',
-    'api'
+    'api',
+    'stocks'
 ]
 
 INSTALLED_APPS += INSTALLED_EXTENSIONS
@@ -152,7 +154,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-LOGIN_REDIRECT_URL = 'home-page'
+LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
 # Default primary key field type
@@ -169,7 +171,7 @@ CELERY_EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
 CELERY_BEAT_SCHEDULE = {
       'price_db_update': {
-        'task': 'api.tasks.price_db_update',
+        'task': 'stocks.tasks.price_db_update',
         'schedule': crontab(minute=0, hour=0, day_of_week='2-6'),
         'options': {
             'expires': 15.0
