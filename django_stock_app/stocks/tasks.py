@@ -25,21 +25,13 @@ def save_data(company, start_day):
 
 @shared_task
 def price_db_update(*args, **kwargs):
-    # Function explanation
+    # Celery task to web scrapping stock prices for each company in database.
 
     companies = StockCompanies.objects.values('company_abbreviation')
     start_day = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y%m%d')
 
     for abbreviation in companies:
         company = abbreviation.get('company_abbreviation')
-        url = f'https://stooq.pl/q/d/l/?s={company}&d1={start_day}&d2={start_day}&i=d'
-        data = {'company_abbreviation': company}
+        save_data(company, start_day)
 
-        response = requests.get(url=url).content.decode('utf-8').strip().split('\r\n')
-
-        data.update(dict(zip(db_columns, response[1].split(','))))
-
-        serializer = StockPricesSerializer(data=data)
-        serializer.is_valid()
-        serializer.save()
 
