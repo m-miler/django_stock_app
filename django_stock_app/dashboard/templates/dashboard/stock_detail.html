@@ -1,5 +1,6 @@
 {% extends 'dashboard/index.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 
@@ -31,7 +32,7 @@
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-bar-chart"></i> Volume </span>
-    <div class="count">{{stock_price.volume}}</div>
+    <div class="count">{{stock_price.volume|intword}}</div>
     <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
   </div>
 </div>
@@ -60,10 +61,16 @@
 </div>
 
 
+
 {% endblock %}
+
+{% block portfolios %}
+{% for portfolio in portfolios %}
+  <li><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">{{portfolio.name}} </a></li>
+{% endfor %}
+{% endblock %}
+
 
 {% block script %}
 {{ block.super }}
-
-
 {% endblock %}

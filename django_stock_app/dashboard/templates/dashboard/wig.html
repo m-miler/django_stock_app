@@ -1,38 +1,54 @@
 {% extends 'dashboard/index.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
 
 <div class="row tile_count">
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-    <span class="count_top"><i class="fa fa-money"></i> Last Price</span>
-    <div class="count">{{stock_price.open_price}} </div>
-    <span class="count_bottom"><i class="green">{{stock_price.open_price}} </i> From last Week</span>
-  </div>
-  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Open</span>
     <div class="count">{{stock_price.open_price}}</div>
-    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+    {% if stock_price.open_weekly_change > 0 %}
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.open_weekly_change}} %</i> From last Week</span>
+    {% else %}
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.open_weekly_change}} %</i> From last Week</span>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Max Day</span>
-    <div class="count green">{{stock_price.max_price}}</div>
-    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+    <div class="count">{{stock_price.max_price}}</div>
+    {% if stock_price.max_weekly_change > 0 %}
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.max_weekly_change}} %</i> From last Week</span>
+    {% else %}
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.max_weekly_change}} %</i> From last Week</span>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Min Day</span>
     <div class="count">{{stock_price.min_price}}</div>
-    <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+    {% if stock_price.min_weekly_change > 0 %}
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.min_weekly_change}} %</i> From last Week</span>
+    {% else %}
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.min_weekly_change}} %</i> From last Week</span>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Close Price </span>
     <div class="count">{{stock_price.close_price}}</div>
-    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+    {% if stock_price.close_weekly_change > 0 %}
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.close_weekly_change}} %</i> From last Week</span>
+    {% else %}
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.close_weekly_change}} %</i> From last Week</span>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-bar-chart"></i> Volume </span>
-    <div class="count">{{stock_price.volume}}</div>
-    <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+    <div class="count">{{stock_price.volume|intword}}</div>
+    {% if stock_price.volume_weekly_change > 0 %}
+      <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.volume_weekly_change}} %</i> From last Week</span>
+    {% else %}
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.volume_weekly_change}} %</i> From last Week</span>
+    {% endif %}
   </div>
 </div>
 
@@ -135,8 +151,12 @@
 
 {% endblock %}
 
+{% block portfolios %}
+{% for portfolio in portfolios %}
+  <li><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">{{portfolio.name}} </a></li>
+{% endfor %}
+{% endblock %}
+
 {% block script %}
 {{ block.super }}
-
-
 {% endblock %}

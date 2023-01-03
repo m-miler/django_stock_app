@@ -36,7 +36,7 @@
           <div class="left_col scroll-view">
           {% if user.is_authenticated %}
             <div class="navbar nav_title" style="border: 0;">
-              <a href="" class="site_title"><span>Stock Application</span></a>
+              <a href="{% url 'home' %}" class="site_title"><span>Stock Application</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -69,9 +69,13 @@
                   </li>
 
                   <li><a><i class="fa fa-money"></i> Investment Portfolio <span class="fa fa-chevron-down"></span></a>
+
                     <ul class="nav child_menu">
-                      <li><a href="">Sample Portfolio </a></li>
+                      <li><a href="{% url 'portfolio-create' %}">Add Portfolio </a></li>
+                      {% block portfolios %}
+                      {% endblock %}
                     </ul>
+
                   </li>
                 </ul>
               </div>
@@ -80,14 +84,11 @@
 
             <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
+              <a data-toggle="tooltip" data-placement="top" title="Profile Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              <a data-toggle="tooltip" data-placement="top" title="Add Portfolio" href="">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top" title="Logout" href="{% url 'logout' %}">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
