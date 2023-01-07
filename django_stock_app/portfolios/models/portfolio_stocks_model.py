@@ -6,10 +6,13 @@ from stocks.models.stock_prices_model import StockPrices, TODAY_DATE
 class PortfolioStocks(models.Model):
     portfolio_id = models.ForeignKey(Portfolio, on_delete=models.CASCADE, help_text='Portfolio FK',
                                      to_field='portfolio_id')
-    stock = models.CharField(max_length=10, help_text='Company Abbreviation', unique=True)
+    stock = models.CharField(max_length=10, help_text='Company Abbreviation')
+
+    amount = models.IntegerField(help_text='Number of stocks in portfolio',
+                                 validators=[MinValueValidator(Decimal('0.01'))])
+    stock_price = models.DecimalField(help_text='Average stock price', max_digits=15, decimal_places=2)
+
     stock_buy_date = models.DateField(auto_now=True, help_text='Date of adding the stock')
-    amount = models.IntegerField(help_text='Number of stocks in portfolio')
-    stock_price = models.FloatField(help_text='Average stock price')
 
     @property
     def last_stock_price(self):

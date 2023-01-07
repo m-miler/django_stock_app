@@ -21,8 +21,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
         ticker = (self.kwargs.get('ticker')).upper()
         if ticker[:3] == 'WIG':
             return ['dashboard/wig.html']
-        else:
-            return ['dashboard/stock_detail.html']
+        return ['dashboard/stock_detail.html']
 
     def get_context_data(self, **kwargs):
         ticker = (kwargs.get('ticker')).upper()
