@@ -73,6 +73,16 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'portfolio-create' %}">Add Portfolio </a></li>
                       {% block portfolios %}
+                      {% for portfolio in portfolios %}
+                        <li><a>{{portfolio.name}}<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
+                            <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
+                            <li><a href="#level2_2">Sell Stocks</a></li>
+                            <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
+                          </ul>
+                        </li>
+                      {% endfor %}
                       {% endblock %}
                     </ul>
 
@@ -216,7 +226,6 @@
     <script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
     <script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
     <script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
-
 
     <!-- Custom Theme Scripts -->
     <script src="{% static 'build/js/custom.js' %}"></script>

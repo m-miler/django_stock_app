@@ -1,13 +1,11 @@
 {% extends 'dashboard/blank.html' %}
 {% block content %}
     <div class="login_wrapper">
-        <div class="content-section">
-            <h2> You have been log out</h2>
-            <div class="board-top pt-3">
-                <small class="text-muted">
-                    Have an account? <a class="ml-2" href="{% url 'login' %}">Log In Again?</a>
-                </small>
-            </div>
+        <div class="row">
+            <h1> You have been log out </h1>
+                <div class="board-top pt-3">
+                   <p> Have an account? <a class="ml-2" href="{% url 'login' %}">Log In Again?</a></p>
+                </div>
         </div>
     </div>
 {% endblock %}

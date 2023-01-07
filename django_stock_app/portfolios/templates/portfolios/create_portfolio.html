@@ -23,7 +23,14 @@
 
 {% block portfolios %}
 {% for portfolio in portfolios %}
-  <li><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">{{portfolio.name}} </a></li>
+  <li><a>{{portfolio.name}}<span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+      <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
+      <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
+      <li><a href="#level2_2">Sell Stocks</a></li>
+      <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
+    </ul>
+  </li>
 {% endfor %}
 {% endblock %}
 
