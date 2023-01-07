@@ -12,7 +12,8 @@ LAST_WEEK_END = (datetime.date(datetime.today()) - timedelta(days=7)).strftime('
 
 
 def home(request):
-    return render(request, 'dashboard/index.html')
+    portfolios = Portfolio.objects.filter(user__username=request.user.username).all()
+    return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
 
 
 class Dashboard(LoginRequiredMixin, TemplateView):
@@ -25,16 +26,16 @@ class Dashboard(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         ticker = (kwargs.get('ticker')).upper()
-        queryset = StockPrices.objects.filter(company_abbreviation__index__contains=ticker).all()
-        chart_data = StockPrices.objects.filter(company_abbreviation__company_abbreviation__contains=ticker).all()
+        queryset = StockPrices.objects.filter(company_abbreviation__index=ticker).all()
+        chart_data = StockPrices.objects.filter(company_abbreviation__company_abbreviation=ticker).all()
 
         context = super(Dashboard, self).get_context_data(**kwargs)
-        context['stock_price'] = chart_data.filter(Q(company_abbreviation__company_abbreviation__contains=ticker) &
-                                                   Q(date__contains=TODAY_DATE)).first()
+        context['stock_price'] = chart_data.filter(Q(company_abbreviation__company_abbreviation=ticker) &
+                                                   Q(date=TODAY_DATE)).first()
 
-        context['companies'] = queryset.filter(date__contains=TODAY_DATE)
-        context['top_companies'] = queryset.filter(date__contains=TODAY_DATE).order_by('close_price')[:5]
+        context['companies'] = queryset.filter(date=TODAY_DATE)
+        context['top_companies'] = queryset.filter(date=TODAY_DATE).order_by('-close_price')[:5]
         context['chart'] = stock_chart(chart_data)
         context['ticker'] = ticker
-        context['portfolios'] = Portfolio.objects.filter(user__username__contains=self.request.user.username).all()
+        context['portfolios'] = Portfolio.objects.filter(user__username=self.request.user.username).all()
         return context
