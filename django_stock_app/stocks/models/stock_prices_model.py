@@ -18,12 +18,20 @@ class StockPrices(models.Model):
     close_price = models.FloatField(help_text='Day Close Price')
     volume = models.BigIntegerField(help_text='Day Volume')
 
-    @property
-    def last_week_price(self):
-        last_week_price = StockPrices.objects.filter(models.Q(date__contains=LAST_WEEK_END) &
-                                                    models.Q(company_abbreviation__company_abbreviation__contains=
-                                                             self.company_abbreviation)).first()
-        return last_week_price
+    def __str__(self):
+        return self.company_abbreviation.company_abbreviation + '_' + self.date.strftime('%Y-%m-%d')
+
+    def get_weekly_price(self, field_name):
+        last_week_price = StockPrices.objects.filter(models.Q(date=LAST_WEEK_END) &
+                                                     models.Q(company_abbreviation__company_abbreviation=
+                                                              self.company_abbreviation)).first()
+        if not last_week_price:
+            return None
+
+        current_value = getattr(self, field_name)
+        last_week_value = getattr(last_week_price, field_name)
+        weekly_change = (current_value - last_week_value) / current_value
+        return Decimal(weekly_change).quantize(Decimal('0.001')) * 100
 
     @property
     def close_weekly_change(self):
@@ -47,5 +55,4 @@ class StockPrices(models.Model):
 
     @property
     def volume_weekly_change(self):
-        weekly_change = round(((self.volume - self.last_week_price.volume) / self.volume), 4)
-        return weekly_change * 100
+        return self.get_weekly_price('volume')
