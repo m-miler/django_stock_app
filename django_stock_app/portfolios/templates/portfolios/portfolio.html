@@ -29,7 +29,7 @@
       <a href="{% url 'portfolio-buy' portfolio=portfolio_detail.name %}" type="button" class="btn btn-dark">Buy Stocks</a>
     </div>
     <div>
-      <button type="button" class="btn btn-dark">Sell Stocks</button>
+      <a href="{% url 'portfolio-sell' portfolio=portfolio.name %}" type="button" class="btn btn-dark">Sell Stocks</a>
     </div>
   </div>
 </div>
@@ -98,7 +98,7 @@
     <ul class="nav child_menu">
       <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
       <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
-      <li><a href="#level2_2">Sell Stocks</a></li>
+      <li><a href="{% url 'portfolio-sell' portfolio=portfolio.name %}">Sell Stocks</a></li>
       <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
     </ul>
   </li>

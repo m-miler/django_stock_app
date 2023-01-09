@@ -16,6 +16,9 @@ class PortfolioStocks(models.Model):
 
     stock_buy_date = models.DateField(auto_now=True, help_text='Date of adding the stock')
 
+    def __str__(self):
+        return self.stock
+
     @property
     def last_stock_price(self):
         last_stock_price = StockPrices.objects.filter(models.Q(date__contains=TODAY_DATE) &
