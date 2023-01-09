@@ -1,0 +1,70 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block content %}
+<div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+          <form method="POST" id="buy_stock_form" load-data-url="{% url 'ajax-load-data' %}">
+            {% csrf_token %}
+            <h1>Buy Stock</h1>
+            {{ form.as_p }}
+            <div>
+              <button class="btn btn-default submit" type="submit">Buy</button>
+            </div>
+            <div class="clearfix"></div>
+          </form>
+        </section>
+      </div>
+</div>
+{% endblock %}
+
+{% block portfolios %}
+{% for portfolio in portfolios %}
+  <li><a>{{portfolio.name}}<span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+      <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
+      <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
+      <li><a href="{% url 'portfolio-sell' portfolio=portfolio.name %}">Sell Stocks</a></li>
+      <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
+    </ul>
+  </li>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+
+
+  <script>
+    $("#id_stock").change(function () {
+      var url = $("#buy_stock_form").attr("load-data-url");
+      var stockName = $("#id_stock option:selected").text();
+
+      $.ajax({
+        url: url,
+        data: {
+          'stock': stockName
+        },
+        success: function (data) {
+          $("#id_full_stock_name").attr('value', data.company_name);
+          $("#id_stock_price").attr('value', data.last_stock_price);
+
+        }
+      });
+
+    });
+
+    $("#id_amount").change(function() {
+      var amount= $("#id_amount").val();
+      var stockPrice = $("#id_stock_price").val();
+      var totalValue = amount * stockPrice
+      $("#id_value").attr('value', totalValue);
+
+    });
+
+
+
+  </script>
+
+{% endblock %}

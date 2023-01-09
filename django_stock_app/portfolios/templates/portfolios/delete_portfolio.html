@@ -1,0 +1,39 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h1>Delete Portfolio</h1>
+                    <h4>Are you sure you want to delete <b><u>{{ object.name }}</u></b> ?</h4>
+                    <div>
+                        <button class="btn btn-default submit" type="submit">Yes</button>
+                        <a class="btn btn-default submit" href="{% url 'portfolio-detail' portfolio=object.name %}">Cancel</a>
+                    </div>
+                </form>
+            </section>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block portfolios %}
+{% for portfolio in portfolios %}
+  <li><a>{{portfolio.name}}<span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+      <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
+      <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
+      <li><a href="{% url 'portfolio-sell' portfolio=portfolio.name %}">Sell Stocks</a></li>
+      <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
+    </ul>
+  </li>
+{% endfor %}
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+{% endblock %}

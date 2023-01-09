@@ -1,4 +1,3 @@
-import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 
@@ -16,9 +15,10 @@ def stock_chart(data):
                       yaxis_title='Close Price in PLN',
                       xaxis_title='',
                       paper_bgcolor='rgb(250,250,250)',
-                      plot_bgcolor='rgb(250,250,250)'
+                      plot_bgcolor='rgb(250,250,250)',
+                      xaxis=dict(type='category')
                       )
-    fig.update_xaxes(rangeslider_visible=True)
+    fig.update_xaxes(rangeslider_visible=True, categoryorder='category ascending')
 
     chart = fig.to_html(config=dict(displayModeBar=False))
     return chart
