@@ -11,6 +11,11 @@ class PortfolioDetailed(LoginRequiredMixin, DetailView):
     slug_field = 'name'
     slug_url_kwarg = 'portfolio'
 
+    def get_object(self, queryset=None, *args, **kwargs):
+        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        obj = Portfolio.objects.filter(portfolio_id=portfolio_id).first()
+        return obj
+
     def get_context_data(self, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get('portfolio')
         portfolio_stocks_queryset = PortfolioStocks.objects.filter(portfolio_id=portfolio_id).all()

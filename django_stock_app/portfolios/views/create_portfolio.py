@@ -16,5 +16,5 @@ class CreatePortfolio(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreatePortfolio, self).get_context_data(**kwargs)
-        context['portfolios'] = Portfolio.objects.filter(user__username__contains=self.request.user.username).all()
+        context['portfolios'] = Portfolio.objects.filter(user__username=self.request.user.username).all()
         return context
