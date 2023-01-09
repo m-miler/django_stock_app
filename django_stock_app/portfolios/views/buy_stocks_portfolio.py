@@ -32,6 +32,15 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         return self.render_to_response(self.get_context_data())
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            self.object.delete()
+            return self.form_invalid(form)
+
     def get_object(self, queryset=None, *args, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
         stock_name = STOCK_CHOICES[int(self.request.POST.get('stock'))-1]
