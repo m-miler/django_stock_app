@@ -47,6 +47,7 @@ class BuyStockPortfolioForm(forms.ModelForm):
         self.fields['amount'].help_text = ''
         self.fields['amount'].widget.attrs.update(
             {'class': 'form-control',
+             'min': 1
              }
         )
 
