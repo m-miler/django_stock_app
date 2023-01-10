@@ -12,7 +12,7 @@ class BuyStockPortfolioForm(forms.ModelForm):
         model = PortfolioStocks
         fields = ['stock', 'full_stock_name', 'stock_price', 'amount', 'value']
 
-    stock = forms.ModelChoiceField(queryset=STOCK_CHOICES)
+    stock = forms.ModelChoiceField(queryset=STOCK_CHOICES, to_field_name='company_abbreviation')
     full_stock_name = forms.CharField(max_length=50, disabled=True, required=False)
     stock_price = forms.DecimalField(max_digits=15, decimal_places=2)
     value = forms.DecimalField(max_digits=15, decimal_places=2)

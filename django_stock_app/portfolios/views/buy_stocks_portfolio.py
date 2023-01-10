@@ -43,8 +43,7 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None, *args, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
-        stock_name = STOCK_CHOICES[int(self.request.POST.get('stock'))-1]
-
+        stock_name = self.request.POST.get('stock')
         obj, created = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) &
                                                       Q(stock=stock_name)).get_or_create(
             defaults={'portfolio_id': Portfolio.objects.get(portfolio_id=portfolio_id),
