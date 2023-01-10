@@ -1,9 +1,7 @@
 from django import forms
 from portfolios.models.portfolio_stocks_model import PortfolioStocks
-from portfolios.models.portfolio_model import Portfolio
-from stocks.models.companies_model import StockCompanies
 
-STOCK_CHOICES = PortfolioStocks.objects.filter(portfolio_id='admin_PortfolioTest').only('stock')
+
 TODAY_DATE = '2022-12-29'
 
 
@@ -12,13 +10,14 @@ class SellStockPortfolioForm(forms.ModelForm):
         model = PortfolioStocks
         fields = ['stock', 'full_stock_name', 'stock_price', 'amount', 'value']
 
-    stock = forms.ModelChoiceField(queryset=STOCK_CHOICES, to_field_name='stock')
     full_stock_name = forms.CharField(max_length=50, disabled=True, required=False)
     stock_price = forms.DecimalField(max_digits=15, decimal_places=2)
     value = forms.DecimalField(max_digits=15, decimal_places=2)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, portfolio_id=None, *args, **kwargs):
         super(SellStockPortfolioForm, self).__init__(*args, **kwargs)
+        stock_choice = PortfolioStocks.objects.filter(portfolio_id=portfolio_id).only('stock')
+        self.fields['stock'] = forms.ModelChoiceField(queryset=stock_choice, to_field_name='stock')
         self.fields['stock'].label = 'Stock Ticker'
         self.fields['stock'].help_text = ''
         self.fields['stock'].widget.attrs.update(

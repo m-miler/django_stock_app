@@ -1,7 +1,7 @@
 from django.views.generic import UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolios.models.portfolio_stocks_model import PortfolioStocks
-from portfolios.forms.sell_stock_portfolio_form import SellStockPortfolioForm, STOCK_CHOICES
+from portfolios.forms.sell_stock_portfolio_form import SellStockPortfolioForm
 from portfolios.models.portfolio_model import Portfolio
 from stocks.models.companies_model import StockCompanies
 from stocks.models.stock_prices_model import StockPrices
@@ -43,6 +43,12 @@ class SellStockPortfolio(LoginRequiredMixin, UpdateView):
         context['form'] = self.get_form()
         context['portfolios'] = Portfolio.objects.filter(user__username=self.request.user.username).all()
         return context
+
+    def get_form_kwargs(self):
+        kwargs = super(SellStockPortfolio, self).get_form_kwargs()
+        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        kwargs.update({'portfolio_id': portfolio_id})
+        return kwargs
 
     def form_valid(self, form, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
