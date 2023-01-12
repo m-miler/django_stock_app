@@ -59,7 +59,7 @@
       var amount= $("#id_amount").val();
       var stockPrice = $("#id_stock_price").val();
       var totalValue = amount * stockPrice
-      $("#id_value").attr('value', totalValue);
+      $("#id_value").attr('value', totalValue.toFixed(2));
 
     });
 
