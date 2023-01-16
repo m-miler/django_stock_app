@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from stocks.models.stock_prices_model import StockPrices
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,8 +12,11 @@ LAST_WEEK_END = (datetime.date(datetime.today()) - timedelta(days=7)).strftime('
 
 
 def home(request):
-    portfolios = Portfolio.objects.filter(user__username=request.user.username).all()
-    return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
+    if request.user.username:
+        portfolios = Portfolio.objects.filter(user__username=request.user.username).all()
+        return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
+    else:
+        return redirect('login')
 
 
 class Dashboard(LoginRequiredMixin, TemplateView):
