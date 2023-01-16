@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-from users import views as user_views
+from users.views.user_register import register
+from users.views.user_profile import profile
 from users.forms.login_form import CustomLoginForm
 from users.forms.reset_password_form import CustomPasswordResetForm
 from users.forms.reset_password_confirmation_form import CustomPasswordConfirmationForm
@@ -13,7 +14,7 @@ urlpatterns = [
     path('portfolio/', include('portfolios.urls')),
     path('', include('dashboard.urls')),
     path('api/', include('api.urls')),
-    path('register/', user_views.register, name='register'),
+    path('register/', register, name='register'),
     path('login/',
          auth_views.LoginView.as_view(authentication_form=CustomLoginForm,
                                       template_name='users/login.html'),
@@ -38,5 +39,7 @@ urlpatterns = [
          auth_views.PasswordResetConfirmView.as_view(form_class=CustomPasswordConfirmationForm,
                                                      template_name='users/password_reset_confirm.html'),
          name='password_reset_confirm'),
+
+    path('profile/', profile, name='profile')
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,102 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<div class="row" role="main">
+  <div class="">
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>User Profile</h2>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+              <div class="profile_img">
+                <div id="crop-avatar">
+                  <!-- Current avatar -->
+                  <img class="img-responsive avatar-view" src="{{ user.profile.image.url }}" alt="Avatar" title="Change the avatar">
+                </div>
+              </div>
+              <h3>{{user.username}}</h3>
+
+              <ul class="list-unstyled user_data">
+                <li><i class="fa fa-envelope user-profile-icon"></i> {{user.email}}</li>
+              </ul>
+
+              <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+              <br />
+
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+
+              <div class="profile_title">
+                <div class="col-md-6">
+                  <h2>User Portfolios</h2>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+              <!-- start of user-activity-graph -->
+              <div>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Portfolio Name</th>
+                      <th>Date of Creation</th>
+                      <th>Portfolio Days</th>
+                      <th>Cash Balance</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {% for portfolio in portfolios %}
+                    <tr>
+                      <td><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">{{portfolio.name}}</a></td>
+                      <td>{{portfolio.create_date}}</td>
+                      <td>{{portfolio.portfolio_days}}</td>
+                      <td>{{portfolio.balance}}</td>
+                    </tr>
+                    {% endfor %}
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- end of user-activity-graph -->
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block portfolios %}
+{% for portfolio in portfolios %}
+  <li><a>{{portfolio.name}}<span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+      <li class="sub_menu"><a href="{% url 'portfolio-detail' portfolio=portfolio.name %}">Dashboard</a></li>
+      <li><a href="{% url 'portfolio-buy' portfolio=portfolio.name %}">Buy Stocks</a></li>
+      <li><a href="{% url 'portfolio-sell' portfolio=portfolio.name %}">Sell Stocks</a></li>
+      <li><a href="{% url 'portfolio-delete' portfolio=portfolio.name %}">Delete Portfolio</a></li>
+    </ul>
+  </li>
+{% endfor %}
+{% endblock %}
+
+
+{% block script %}
+{{ block.super }}
+{% endblock %}
