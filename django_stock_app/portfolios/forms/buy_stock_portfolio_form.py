@@ -18,6 +18,7 @@ class BuyStockPortfolioForm(forms.ModelForm):
     value = forms.DecimalField(max_digits=15, decimal_places=2)
 
     def __init__(self, *args, **kwargs):
+        self.portfolio_id = kwargs.pop('portfolio_id', None)
         super(BuyStockPortfolioForm, self).__init__(*args, **kwargs)
         self.fields['stock'].label = 'Stock Ticker'
         self.fields['stock'].help_text = ''
@@ -61,7 +62,7 @@ class BuyStockPortfolioForm(forms.ModelForm):
 
     def clean_value(self):
         value = self.cleaned_data['value']
-        current_balance = self.instance.portfolio_id.balance
+        current_balance = Portfolio.objects.filter(portfolio_id=self.portfolio_id).first().balance
         if value > current_balance:
             raise forms.ValidationError('The amount is higher then portfolio balance!')
         return value

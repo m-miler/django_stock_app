@@ -9,7 +9,6 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.shortcuts import reverse
 
-
 TODAY_DATE = '2022-12-29'
 
 
@@ -32,25 +31,17 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         return self.render_to_response(self.get_context_data())
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            self.object.delete()
-            return self.form_invalid(form)
-
     def get_object(self, queryset=None, *args, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
         stock_name = self.request.POST.get('stock')
-        obj, created = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) &
-                                                      Q(stock=stock_name)).get_or_create(
-            defaults={'portfolio_id': Portfolio.objects.get(portfolio_id=portfolio_id),
-                      'stock': stock_name,
-                      'amount': 0,
-                      'stock_price': 0})
+        obj = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) & Q(stock=stock_name)).first()
         return obj
+
+    def get_form_kwargs(self):
+        kwargs = super(BuyStockPortfolio, self).get_form_kwargs()
+        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        kwargs.update({'portfolio_id': portfolio_id})
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = {}
@@ -60,20 +51,16 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form, **kwargs):
         portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
-        stock_name = form.instance.stock
-        self.balance_update(form.instance.amount, form.instance.stock_price, portfolio_id)
-
-        try:
-            queryset = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) &
-                                                      Q(stock=stock_name)).first()
-        except:
-            queryset = None
-
-        form.instance.portfolio_id = Portfolio.objects.filter(portfolio_id=portfolio_id).first()
-        form.instance.amount = form.instance.amount + queryset.amount
-
-        if queryset is not None and queryset.stock_price != 0:
-            form.instance.stock_price = (form.instance.stock_price + queryset.stock_price)/2
+        if self.object is not None:
+            stock_name = self.object.stock
+            queryset = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) & Q(stock=stock_name)).first()
+            form.instance.portfolio_id = self.object.portfolio_id
+            self.balance_update(form.instance.amount, form.instance.stock_price, portfolio_id)
+            form.instance.amount = form.instance.amount + queryset.amount
+            form.instance.stock_price = (form.instance.stock_price + queryset.stock_price) / 2
+        else:
+            form.instance.portfolio_id = Portfolio.objects.get(portfolio_id=portfolio_id)
+            self.balance_update(form.instance.amount, form.instance.stock_price, portfolio_id)
 
         return super().form_valid(form)
 
