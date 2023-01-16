@@ -51,21 +51,14 @@ class SellStockPortfolio(LoginRequiredMixin, UpdateView):
         return kwargs
 
     def form_valid(self, form, **kwargs):
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        portfolio_id = self.object.portfolio_id.portfolio_id
         stock_name = form.instance.stock
+        queryset = PortfolioStocks.objects.get(Q(portfolio_id=portfolio_id) & Q(stock=stock_name))
         self.balance_update(form.instance.amount, form.instance.stock_price, portfolio_id)
-
-        try:
-            queryset = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) &
-                                                      Q(stock=stock_name)).first()
-        except:
-            queryset = None
-
-        form.instance.portfolio_id = Portfolio.objects.filter(portfolio_id=portfolio_id).first()
         form.instance.amount = queryset.amount - form.instance.amount
 
         if form.instance.amount == 0:
-            self.delete_if_zero(queryset)
+            self.object.delete()
             return HttpResponseRedirect(self.get_success_url())
 
         return super().form_valid(form)
@@ -79,6 +72,4 @@ class SellStockPortfolio(LoginRequiredMixin, UpdateView):
         new_balance = current_balance + amount * stock_price
         queryset.update(balance=new_balance)
 
-    def delete_if_zero(self, queryset):
-        queryset.delete()
 
