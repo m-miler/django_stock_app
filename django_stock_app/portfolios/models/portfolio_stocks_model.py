@@ -32,13 +32,18 @@ class PortfolioStocks(models.Model):
         return value
 
     @property
+    def portfolio_pricing(self):
+        value = round(self.amount * self.stock_price, 2)
+        return value
+
+    @property
     def profit_loss(self):
-        profit_loss = round(self.pricing - self.amount * self.stock_price, 2)
+        profit_loss = round(self.pricing - self.portfolio_pricing, 2)
         return profit_loss
 
     @property
     def profit_loss_percentage(self):
-        percentage = round(self.profit_loss / (self.amount * self.stock_price), 2)
+        percentage = round(self.profit_loss / self.portfolio_pricing, 2)
         return percentage * 100
 
     @property

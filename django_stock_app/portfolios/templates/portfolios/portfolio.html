@@ -5,32 +5,36 @@
 {% block content %}
 <div class="row tile_count">
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+    <span class="count_top"><i class="fa fa-money"></i> Total </span>
+    <div class="count">{{totals.total|intcomma}}</div>
+  </div>
+  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Cash </span>
     <div class="count">{{portfolio_detail.balance|intcomma}}</div>
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Stock Pricing</span>
-    <div class="count">0</div>
+    <div class="count">{{totals.total_pricing|intcomma}}</div>
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Profit/Loss</span>
-    <div class="count red">0</div>
+    {% if totals.total_profit_loss >= 0 %}
+      <div class="count green">{{totals.total_profit_loss}}</div>
+    {% else %}
+      <div class="count red">{{totals.total_profit_loss}}</div>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Profit/Loss %</span>
-    <div class="count">0%</div>
+    {% if totals.total_profit_loss >= 0 %}
+      <div class="count green">{{totals.total_profit_loss_percentage}} %</div>
+    {% else %}
+      <div class="count red">{{totals.total_profit_loss_percentage}} %</div>
+    {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
     <span class="count_top"><i class="fa fa-money"></i> Portfolio Days</span>
     <div class="count">{{portfolio_detail.portfolio_days}}</div>
-  </div>
-  <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-    <div>
-      <a href="{% url 'portfolio-buy' portfolio=portfolio_detail.name %}" type="button" class="btn btn-dark">Buy Stocks</a>
-    </div>
-    <div>
-      <a href="{% url 'portfolio-sell' portfolio=portfolio.name %}" type="button" class="btn btn-dark">Sell Stocks</a>
-    </div>
   </div>
 </div>
 <div class="row">
@@ -75,11 +79,11 @@
               <tr>
                 <td><a href="{% url 'dashboard' ticker=stock.stock %}">{{stock.stock}}</a></td>
                 <td>Full Company Name</td>
-                <td>{{stock.stock_price}}</td>
+                <td>{{stock.stock_price|intcomma}}</td>
                 <td>{{stock.last_stock_price.close_price}}</td>
                 <td>{{stock.amount}}</td>
-                <td>{{stock.pricing}} PLN</td>
-                <td>{{stock.profit_loss}}</td>
+                <td>{{stock.pricing|intcomma}} PLN</td>
+                <td>{{stock.profit_loss|intcomma}}</td>
                 <td>{{stock.profit_loss_percentage}}%</td>
                 <td>{{stock.portfolio_share}} %</td>
               </tr>
