@@ -107,7 +107,7 @@
                 {% if user.is_authenticated %}
                   <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <img src="/media/default.jpg" alt="">{{ user.username }}
+                      <img src="{{ user.profile.image.url }}" alt="">{{ user.username }}
                       <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
