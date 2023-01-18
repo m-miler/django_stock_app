@@ -4,7 +4,6 @@ from portfolios.models.portfolio_model import Portfolio
 from stocks.models.companies_model import StockCompanies
 
 STOCK_CHOICES = StockCompanies.objects.only('company_abbreviation')
-TODAY_DATE = '2022-12-29'
 
 
 class BuyStockPortfolioForm(forms.ModelForm):

@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from django.conf import settings
 from django.shortcuts import render, redirect
 from stocks.models.stock_prices_model import StockPrices
 from django.views.generic import TemplateView
@@ -7,8 +7,8 @@ from django.db.models import Q
 from dashboard.charts import stock_chart
 from portfolios.models.portfolio_model import Portfolio
 
-TODAY_DATE = '2022-12-29' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
-LAST_WEEK_END = (datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
+TODAY_DATE = settings.TODAY #'2022-12-29'
+LAST_WEEK_END = settings.LAST_WEEK_END
 
 
 def home(request):

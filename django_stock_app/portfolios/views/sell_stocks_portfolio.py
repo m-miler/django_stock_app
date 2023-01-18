@@ -1,4 +1,5 @@
 from django.views.generic import UpdateView
+from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolios.models.portfolio_stocks_model import PortfolioStocks
 from portfolios.forms.sell_stock_portfolio_form import SellStockPortfolioForm
@@ -10,7 +11,7 @@ from django.db.models import Q
 from django.shortcuts import reverse
 
 
-TODAY_DATE = '2022-12-29'
+TODAY_DATE = settings.TODAY #'2022-12-29'
 
 
 def load_data(request):

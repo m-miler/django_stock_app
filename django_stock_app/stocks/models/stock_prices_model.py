@@ -1,10 +1,9 @@
-from datetime import datetime, timedelta
+from django.conf import settings
 from decimal import Decimal
 from django.db import models
 from stocks.models.companies_model import StockCompanies
 
-TODAY_DATE = '2022-12-29' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
-LAST_WEEK_END = '2022-12-22'#(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
+LAST_WEEK_END = settings.LAST_WEEK_END
 
 
 class StockPrices(models.Model):
