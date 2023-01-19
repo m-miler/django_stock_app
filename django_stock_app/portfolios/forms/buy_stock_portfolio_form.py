@@ -1,6 +1,6 @@
 from django import forms
-from portfolios.models.portfolio_stocks_model import PortfolioStocks
-from portfolios.models.portfolio_model import Portfolio
+from ..models.portfolio_stocks_model import PortfolioStocks
+from ..models.portfolio_model import Portfolio
 from stocks.models.companies_model import StockCompanies
 
 STOCK_CHOICES = StockCompanies.objects.only('company_abbreviation')

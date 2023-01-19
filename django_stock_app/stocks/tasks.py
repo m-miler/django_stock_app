@@ -1,13 +1,19 @@
 from celery import shared_task
 import datetime
-from stocks.models.companies_model import StockCompanies
+from .models.companies_model import StockCompanies
 from api.serializers.stock_price_serializer import StockPricesSerializer
 import requests
 
 DB_COLUMNS = ['date', 'open_price', 'max_price', 'min_price', 'close_price', 'volume']
 
 
-def get_stock_data(company, start_day):
+def get_stock_data(company, start_day) -> dict:
+    """
+    Function with web scrapping code to get the stock price data.
+    :param company: Company abbreviation passed from celery task
+    :param start_day: Date from which we want to get data
+    :return: dict
+    """
     url = f'https://stooq.pl/q/d/l/?s={company}&d1={start_day}&d2={start_day}&i=d'
     data = {'company_abbreviation': company}
 
@@ -16,7 +22,13 @@ def get_stock_data(company, start_day):
     return data
 
 
-def save_data(company, start_day):
+def save_data(company, start_day) -> None:
+    """
+    Function to save web scrap data to the stock_price database.
+    :param company: Company abbreviation passed from celery task
+    :param start_day: Date from which we want to get data
+    :return: None
+    """
     data = get_stock_data(company, start_day)
     serializer = StockPricesSerializer(data=data)
     serializer.is_valid()
@@ -24,8 +36,11 @@ def save_data(company, start_day):
 
 
 @shared_task
-def price_db_update(*args, **kwargs):
-    # Celery task to web scrapping stock prices for each company in database.
+def price_db_update(*args, **kwargs) -> None:
+    """
+    Celery task to web scrapping stock prices for each company in a stock database.
+    Task starts automatically at 24 o'clock and get data form the previous day.
+    """
 
     companies = StockCompanies.objects.values('company_abbreviation')
     start_day = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y%m%d')

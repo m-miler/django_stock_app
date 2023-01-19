@@ -11,7 +11,7 @@ class DeletePortfolio(LoginRequiredMixin, DeleteView):
     success_url = '/'
 
     def get_object(self, queryset=None, *args, **kwargs):
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        portfolio_id = f'{self.request.user.username}_{self.kwargs.get(self.slug_url_kwarg)}'
         obj = Portfolio.objects.filter(portfolio_id__contains=portfolio_id).first()
         return obj
 

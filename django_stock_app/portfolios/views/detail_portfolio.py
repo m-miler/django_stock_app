@@ -17,7 +17,7 @@ class PortfolioDetailed(LoginRequiredMixin, DetailView):
         return obj
 
     def get_context_data(self, **kwargs):
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get('portfolio')
+        portfolio_id = f"{self.request.user.username}_{self.kwargs.get('portfolio')}"
         portfolio_stocks_queryset = PortfolioStocks.objects.filter(portfolio_id=portfolio_id).all()
 
         context = super(PortfolioDetailed, self).get_context_data(**kwargs)

@@ -6,8 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from dashboard.charts import stock_chart
 from portfolios.models.portfolio_model import Portfolio
+from twitter.views import search_tweets
 
-TODAY_DATE = settings.TODAY #'2022-12-29'
+TODAY_DATE = settings.TODAY
 LAST_WEEK_END = settings.LAST_WEEK_END
 
 
@@ -28,7 +29,7 @@ class Dashboard(LoginRequiredMixin, TemplateView):
         return ['dashboard/stock_detail.html']
 
     def get_context_data(self, **kwargs):
-        ticker = (kwargs.get('ticker')).upper()
+        ticker: str = (kwargs.get('ticker')).upper()
         queryset = StockPrices.objects.filter(company_abbreviation__index=ticker).all()
         chart_data = StockPrices.objects.filter(company_abbreviation__company_abbreviation=ticker).all()
 
@@ -41,4 +42,8 @@ class Dashboard(LoginRequiredMixin, TemplateView):
         context['chart'] = stock_chart(chart_data)
         context['ticker'] = ticker
         context['portfolios'] = Portfolio.objects.filter(user__username=self.request.user.username).all()
+
+        if ticker[:3] != 'WIG':
+            context['tweets'] = search_tweets(ticker)
+
         return context

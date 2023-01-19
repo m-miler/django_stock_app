@@ -33,7 +33,7 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
         return self.render_to_response(self.get_context_data())
 
     def get_object(self, queryset=None, *args, **kwargs):
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        portfolio_id = f'{self.request.user.username}_{self.kwargs.get(self.slug_url_kwarg)}'
         stock_name = self.request.POST.get('stock')
         obj = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) & Q(stock=stock_name)).first()
         return obj
@@ -51,7 +51,7 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form, **kwargs):
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        portfolio_id = f'{self.request.user.username}_{self.kwargs.get(self.slug_url_kwarg)}'
         if self.object is not None:
             stock_name = self.object.stock
             queryset = PortfolioStocks.objects.filter(Q(portfolio_id=portfolio_id) & Q(stock=stock_name)).first()

@@ -1,7 +1,7 @@
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from portfolios.models.portfolio_model import Portfolio
-from portfolios.forms.portfolio_create_form import CreatePortfolioForm
+from ..models.portfolio_model import Portfolio
+from ..forms.portfolio_create_form import CreatePortfolioForm
 
 
 class CreatePortfolio(LoginRequiredMixin, CreateView):

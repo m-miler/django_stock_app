@@ -1,7 +1,7 @@
 from django.conf import settings
 from decimal import Decimal
 from django.db import models
-from stocks.models.companies_model import StockCompanies
+from ..models.companies_model import StockCompanies
 
 LAST_WEEK_END = settings.LAST_WEEK_END
 

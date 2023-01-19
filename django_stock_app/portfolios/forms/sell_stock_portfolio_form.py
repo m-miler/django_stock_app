@@ -1,5 +1,5 @@
 from django import forms
-from portfolios.models.portfolio_stocks_model import PortfolioStocks
+from ..models.portfolio_stocks_model import PortfolioStocks
 
 
 class SellStockPortfolioForm(forms.ModelForm):
