@@ -14,10 +14,12 @@ from pathlib import Path
 import environ
 import os
 from celery.schedules import crontab
-from datetime import datetime, timedelta
+from django.core.management.utils import get_random_secret_key
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, get_random_secret_key()),
+    DEVELOPMENT=(bool, False)
 )
 
 
@@ -95,11 +97,17 @@ TEMPLATES = [
     },
 ]
 
+if env('DEVELOPMENT') and env('DEBUG'):
+    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
+    INSTALLED_APPS.append('silk')
+
+
 WSGI_APPLICATION = 'django_stock_app.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {

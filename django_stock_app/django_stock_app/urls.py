@@ -41,6 +41,9 @@ urlpatterns = [
          name='password_reset_confirm'),
 
     path('profile/', profile, name='profile'),
-    path('profile/edit', edit_profile, name='edit-profile')
+    path('profile/edit', edit_profile, name='edit-profile'),
+    path('silk/', include('silk.urls', namespace='silk'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

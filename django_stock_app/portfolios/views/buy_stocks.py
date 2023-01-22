@@ -40,7 +40,7 @@ class BuyStockPortfolio(LoginRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(BuyStockPortfolio, self).get_form_kwargs()
-        portfolio_id = self.request.user.username + '_' + self.kwargs.get(self.slug_url_kwarg)
+        portfolio_id = f"{self.request.user.username}_{self.kwargs.get(self.slug_url_kwarg)}"
         kwargs.update({'portfolio_id': portfolio_id})
         return kwargs
 
