@@ -1,5 +1,5 @@
 from django import forms
-from portfolios.models.portfolio_model import Portfolio
+from ..models.portfolio_model import Portfolio
 
 
 class CreatePortfolioForm(forms.ModelForm):

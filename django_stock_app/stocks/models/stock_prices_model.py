@@ -1,10 +1,7 @@
-from datetime import datetime, timedelta
+from django.conf import settings
 from decimal import Decimal
 from django.db import models
-from stocks.models.companies_model import StockCompanies
-
-TODAY_DATE = '2022-12-29' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
-LAST_WEEK_END = '2022-12-22'#(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
+from ..models.companies_model import StockCompanies
 
 
 class StockPrices(models.Model):
@@ -20,10 +17,10 @@ class StockPrices(models.Model):
     volume = models.BigIntegerField(help_text='Day Volume')
 
     def __str__(self):
-        return self.company_abbreviation.company_abbreviation + '_' + self.date.strftime('%Y-%m-%d')
+        return f"{self.company_abbreviation.company_abbreviation}_{self.date.strftime('%Y-%m-%d')}"
 
     def get_weekly_price(self, field_name):
-        last_week_price = StockPrices.objects.filter(models.Q(date=LAST_WEEK_END) &
+        last_week_price = StockPrices.objects.filter(models.Q(date=settings.LAST_WEEK_END) &
                                                      models.Q(company_abbreviation__company_abbreviation=
                                                               self.company_abbreviation)).first()
         if not last_week_price:
@@ -32,7 +29,7 @@ class StockPrices(models.Model):
         current_value = getattr(self, field_name)
         last_week_value = getattr(last_week_price, field_name)
         weekly_change = (current_value - last_week_value) / current_value
-        return Decimal(weekly_change).quantize(Decimal('0.001')) * 100
+        return (Decimal(weekly_change) * 100).quantize(Decimal('0.01'))
 
     @property
     def close_weekly_change(self):

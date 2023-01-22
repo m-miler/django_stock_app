@@ -1,7 +1,7 @@
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from portfolios.models.portfolio_model import Portfolio
-from portfolios.forms.portfolio_create_form import CreatePortfolioForm
+from ..models.portfolio_model import Portfolio
+from ..forms.portfolio_create_form import CreatePortfolioForm
 
 
 class CreatePortfolio(LoginRequiredMixin, CreateView):
@@ -11,7 +11,7 @@ class CreatePortfolio(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.portfolio_id = self.request.user.username + '_' + form.instance.name
+        form.instance.portfolio_id = f'{self.request.user.username}_{form.instance.name}'
         return super().form_valid(form)
 
     def get_form_kwargs(self):

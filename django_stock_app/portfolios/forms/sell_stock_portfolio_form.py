@@ -1,8 +1,5 @@
 from django import forms
-from portfolios.models.portfolio_stocks_model import PortfolioStocks
-
-
-TODAY_DATE = '2022-12-29'
+from ..models.portfolio_stocks_model import PortfolioStocks
 
 
 class SellStockPortfolioForm(forms.ModelForm):

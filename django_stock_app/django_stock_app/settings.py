@@ -14,9 +14,12 @@ from pathlib import Path
 import environ
 import os
 from celery.schedules import crontab
+from django.core.management.utils import get_random_secret_key
 
 env = environ.Env(
-    DEBUG=(bool, False)
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, get_random_secret_key()),
+    DEVELOPMENT=(bool, False)
 )
 
 
@@ -94,11 +97,17 @@ TEMPLATES = [
     },
 ]
 
+if env('DEVELOPMENT') and env('DEBUG'):
+    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
+    INSTALLED_APPS.append('silk')
+
+
 WSGI_APPLICATION = 'django_stock_app.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -185,3 +194,14 @@ CELERY_BEAT_SCHEDULE = {
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
+
+# Application Today and Last Week Dates
+TODAY = '2022-12-29' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
+LAST_WEEK_END = '2022-12-22' #(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
+
+# Twitter API credentials
+API_KEY = env('API_KEY')
+API_KEY_SECRET = env('API_KEY_SECRET')
+BEARER_TOKEN = env('BEARER_TOKEN')
+ACCESS_TOKEN = env('ACCESS_TOKEN')
+ACCESS_TOKEN_SECRET = env('ACCESS_TOKEN_SECRET')

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from users.views.user_register import register
-from users.views.user_profile import profile
+from users.views.user_profile import profile, edit_profile
 from users.forms.login_form import CustomLoginForm
 from users.forms.reset_password_form import CustomPasswordResetForm
 from users.forms.reset_password_confirmation_form import CustomPasswordConfirmationForm
@@ -40,6 +40,10 @@ urlpatterns = [
                                                      template_name='users/password_reset_confirm.html'),
          name='password_reset_confirm'),
 
-    path('profile/', profile, name='profile')
+    path('profile/', profile, name='profile'),
+    path('profile/edit', edit_profile, name='edit-profile'),
+    path('silk/', include('silk.urls', namespace='silk'))
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

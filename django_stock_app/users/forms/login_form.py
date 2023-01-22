@@ -4,15 +4,12 @@ from django.contrib.auth.forms import AuthenticationForm
 class CustomLoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
-        self.fields['username'].label = ''
-        self.fields['password'].label = ''
+        attributes = {
+            'class': 'form-control',
+            'placeholder': ''}
 
-        self.fields['username'].widget.attrs.update(
-            {'class': 'form-control',
-             'placeholder': 'Username',
-             }
-        )
-        self.fields['password'].widget.attrs.update(
-            {'class': 'form-control',
-             'placeholder': 'Password'}
-        )
+        for field_name in ['username', 'password']:
+            field = self.fields[field_name]
+            field.label = ''
+            field.widget.attrs.update(attributes)
+            field.widget.attrs['placeholder'] = field_name.capitalize()

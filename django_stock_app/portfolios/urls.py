@@ -1,9 +1,9 @@
 from django.urls import path
-from portfolios.views.create_portfolio import CreatePortfolio
-from portfolios.views.detail_portfolio import PortfolioDetailed
-from portfolios.views.buy_stocks_portfolio import BuyStockPortfolio, load_data
-from portfolios.views.sell_stocks_portfolio import SellStockPortfolio
-from portfolios.views.delete_portfolio import DeletePortfolio
+from .views.create_portfolio import CreatePortfolio
+from .views.detail_portfolio import PortfolioDetailed
+from .views.buy_stocks import BuyStockPortfolio, load_data
+from .views.sell_stocks import SellStockPortfolio
+from .views.delete_portfolio import DeletePortfolio
 
 urlpatterns = [
     path('create', CreatePortfolio.as_view(), name='portfolio-create'),
