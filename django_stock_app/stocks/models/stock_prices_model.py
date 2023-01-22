@@ -3,8 +3,6 @@ from decimal import Decimal
 from django.db import models
 from ..models.companies_model import StockCompanies
 
-LAST_WEEK_END = settings.LAST_WEEK_END
-
 
 class StockPrices(models.Model):
     company_abbreviation = models.ForeignKey(StockCompanies,
@@ -19,10 +17,10 @@ class StockPrices(models.Model):
     volume = models.BigIntegerField(help_text='Day Volume')
 
     def __str__(self):
-        return self.company_abbreviation.company_abbreviation + '_' + self.date.strftime('%Y-%m-%d')
+        return f"{self.company_abbreviation.company_abbreviation}_{self.date.strftime('%Y-%m-%d')}"
 
     def get_weekly_price(self, field_name):
-        last_week_price = StockPrices.objects.filter(models.Q(date=LAST_WEEK_END) &
+        last_week_price = StockPrices.objects.filter(models.Q(date=settings.LAST_WEEK_END) &
                                                      models.Q(company_abbreviation__company_abbreviation=
                                                               self.company_abbreviation)).first()
         if not last_week_price:
@@ -31,7 +29,7 @@ class StockPrices(models.Model):
         current_value = getattr(self, field_name)
         last_week_value = getattr(last_week_price, field_name)
         weekly_change = (current_value - last_week_value) / current_value
-        return Decimal(weekly_change).quantize(Decimal('0.001')) * 100
+        return (Decimal(weekly_change) * 100).quantize(Decimal('0.01'))
 
     @property
     def close_weekly_change(self):

@@ -11,7 +11,7 @@ class CreatePortfolio(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.portfolio_id = self.request.user.username + '_' + form.instance.name
+        form.instance.portfolio_id = f'{self.request.user.username}_{form.instance.name}'
         return super().form_valid(form)
 
     def get_form_kwargs(self):

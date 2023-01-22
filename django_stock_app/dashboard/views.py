@@ -14,7 +14,7 @@ LAST_WEEK_END = settings.LAST_WEEK_END
 
 def home(request):
     if request.user.username:
-        portfolios = Portfolio.objects.filter(user__username=request.user.username).all()
+        portfolios = Portfolio.objects.filter(user__username=request.user.username).all().values('name')
         return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
     else:
         return redirect('login')

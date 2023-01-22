@@ -19,20 +19,22 @@ class PortfolioDetailed(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         portfolio_id = f"{self.request.user.username}_{self.kwargs.get('portfolio')}"
         portfolio_stocks_queryset = PortfolioStocks.objects.filter(portfolio_id=portfolio_id).all()
+        portfolios = Portfolio.objects.filter(user__username=self.request.user.username).all()
+        portfolio_detail = portfolios.filter(portfolio_id=portfolio_id).first()
 
-        context = super(PortfolioDetailed, self).get_context_data(**kwargs)
-        context['portfolios'] = Portfolio.objects.filter(user__username=self.request.user.username).all()
-        context['portfolio_detail'] = Portfolio.objects.filter(portfolio_id=portfolio_id).first()
+        context = {}
+        context['portfolios'] = portfolios
+        context['portfolio_detail'] = portfolio_detail
         context['portfolio_stocks'] = portfolio_stocks_queryset
-        context['totals'] = self.get_totals(portfolio_stocks_queryset, portfolio_id)
+        context['totals'] = self.get_totals(portfolio_stocks_queryset, portfolio_detail.balance)
         context['chart'] = portfolio_chart(portfolio_stocks_queryset)
         return context
 
-    def get_totals(self, queryset, portfolio_id):
+    def get_totals(self, queryset, balance) -> dict:
         total_pricing = sum([stock.pricing for stock in queryset])
         total_portfolio_pricing = sum([stock.portfolio_pricing for stock in queryset])
         total_profit_loss = sum([stock.profit_loss for stock in queryset])
-        total = total_pricing + Portfolio.objects.filter(portfolio_id=portfolio_id).first().balance
+        total = total_pricing + balance
         if total_portfolio_pricing > 0:
             total_profit_loss_percentage = round(total_profit_loss / total_portfolio_pricing, 2) * 100
         else:
