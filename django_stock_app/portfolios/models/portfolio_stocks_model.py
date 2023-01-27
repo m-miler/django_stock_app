@@ -24,14 +24,15 @@ class PortfolioStocks(models.Model):
 
     @property
     def last_stock_price(self):
-        last_stock_price = StockPrices.objects.filter(models.Q(date__contains=TODAY_DATE) &
-                                                      models.Q(company_abbreviation__company_abbreviation__contains=
-                                                               self.stock)).first()
+        last_stock_price = StockPrices.objects.filter(
+            models.Q(date__contains=TODAY_DATE) &
+            models.Q(company_abbreviation__company_abbreviation=self.stock)).first()
+        last_stock_price = last_stock_price.close_price
         return last_stock_price
 
     @property
     def pricing(self):
-        value = round(self.last_stock_price.close_price * self.amount, 2)
+        value = round(self.last_stock_price * self.amount, 2)
         return value
 
     @property

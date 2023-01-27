@@ -80,7 +80,7 @@
                 <td><a href="{% url 'dashboard' ticker=stock.stock %}">{{stock.stock}}</a></td>
                 <td>Full Company Name</td>
                 <td>{{stock.stock_price|intcomma}}</td>
-                <td>{{stock.last_stock_price.close_price}}</td>
+                <td>{{stock.last_stock_price}}</td>
                 <td>{{stock.amount}}</td>
                 <td>{{stock.pricing|intcomma}} PLN</td>
                 <td>{{stock.profit_loss|intcomma}}</td>
