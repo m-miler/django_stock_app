@@ -12,6 +12,7 @@ class SellStockPortfolioForm(forms.ModelForm):
     value = forms.DecimalField(max_digits=15, decimal_places=2)
 
     def __init__(self, portfolio_id=None, *args, **kwargs):
+        self.portfolio_id = portfolio_id
         super(SellStockPortfolioForm, self).__init__(*args, **kwargs)
         stock_choice = PortfolioStocks.objects.filter(portfolio_id=portfolio_id).only('stock')
         self.fields['stock'] = forms.ModelChoiceField(queryset=stock_choice, to_field_name='stock')
@@ -57,7 +58,9 @@ class SellStockPortfolioForm(forms.ModelForm):
 
     def clean_amount(self):
         amount = self.cleaned_data['amount']
-        current_amount_of_stock = self.instance.amount
+        stock = self.data['stock']
+        current_amount_of_stock = PortfolioStocks.objects.filter(portfolio_id=self.portfolio_id,
+                                                                 stock=stock).first().amount
         if amount > current_amount_of_stock:
             raise forms.ValidationError('Too many stocks to sell!')
         return amount

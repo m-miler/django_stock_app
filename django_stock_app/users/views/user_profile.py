@@ -6,6 +6,7 @@ from django.contrib import messages
 
 
 def profile(request):
+    """ Function to render portfolio template."""
     portfolios = Portfolio.objects.filter(user__username=request.user.username).all()
     return render(request, 'users/profile.html', context={'portfolios': portfolios})
 

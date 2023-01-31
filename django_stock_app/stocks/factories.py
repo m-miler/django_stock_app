@@ -8,8 +8,9 @@ class CompanyFactory(factory.django.DjangoModelFactory):
         model = StockCompanies
         django_get_or_create = ('company_abbreviation',)
 
-    company_full_name = 'CDProject'
-    company_abbreviation = 'CDR'
+    company_full_name = factory.Faker('pystr', min_chars=3, max_chars=10)
+    company_abbreviation = factory.Faker('pystr_format', string_format='???',
+                                         letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     index = 'WIG20'
 
 
@@ -19,18 +20,9 @@ class StockPriceFactory(factory.django.DjangoModelFactory):
         model = StockPrices
 
     company_abbreviation = factory.SubFactory(CompanyFactory)
-    date = '2023-01-18'
-    open_price = 129.22
-    max_price = 134.8
-    min_price = 129.22
-    close_price = 133.28
-    volume = 327117
-
-
-class LastWeekStockPriceFactory(StockPriceFactory):
-    date = '2023-01-11'
-    open_price = 138.34
-    max_price = 139.38
-    min_price = 134.3
-    close_price = 135.76
-    volume = 460254
+    date = factory.Sequence(lambda n: f"2023-01-{n:02}") #'2023-01-18'
+    open_price = factory.Faker('pyfloat', min_value=133.00, max_value=134.00, right_digits=2)
+    max_price = factory.Faker('pyfloat', min_value=133.00, max_value=134.00, right_digits=2)
+    min_price = factory.Faker('pyfloat', min_value=133.00, max_value=134.00, right_digits=2)
+    close_price = factory.Faker('pyfloat', min_value=133.00, max_value=134.00, right_digits=2)
+    volume = factory.Faker('pyint', min_value=25000, max_value=1000000)

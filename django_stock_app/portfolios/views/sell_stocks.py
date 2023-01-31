@@ -11,10 +11,11 @@ from django.db.models import Q
 from django.shortcuts import reverse
 
 
-TODAY_DATE = settings.TODAY #'2022-12-29'
+TODAY_DATE = settings.TODAY
 
 
 def load_data(request):
+    """ Frontend function that returns detailed data about selected company. """
     ticker = request.GET.get('stock')
     company_full_name = StockCompanies.objects.filter(company_abbreviation=ticker).first()
     last_stock_price = StockPrices.objects.filter(Q(company_abbreviation__company_abbreviation=ticker) &
@@ -68,6 +69,7 @@ class SellStockPortfolio(LoginRequiredMixin, UpdateView):
         return reverse('portfolio-detail', kwargs={'portfolio': self.kwargs.get(self.slug_url_kwarg)})
 
     def balance_update(self, amount, stock_price, portfolio_id):
+        """ Update portfolio balance after stock selling."""
         queryset = Portfolio.objects.filter(portfolio_id=portfolio_id)
         current_balance = queryset.first().balance
         new_balance = current_balance + amount * stock_price

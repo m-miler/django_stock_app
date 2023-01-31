@@ -3,6 +3,7 @@ import pandas as pd
 
 
 def portfolio_chart(data):
+    """ Create a portfolio bar chart based on current stock pricing. Stocks are in descending order. """
     df_data = pd.DataFrame(columns=['stock', 'pricing'])
     for stock in data:
         df_data = df_data.append({'stock': stock.stock, 'pricing': stock.pricing}, ignore_index=True)

@@ -11,6 +11,7 @@ TWITTER_CREDENTIALS = {
 
 
 def search_tweets(ticker):
+    """ Function to search recent tweets using v2 Twitter API."""
     query = f'#{ticker} #{ticker.lower()} #GPW #gpw lang:pl'
     tweet_fields = ['author_id', 'created_at', 'text']
     client = tweepy.Client(

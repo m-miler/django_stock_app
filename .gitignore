@@ -135,3 +135,5 @@ sent_emails/
 *.bak
 *.dat
 *.dir
+
+.idea

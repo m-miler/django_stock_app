@@ -13,6 +13,9 @@ LAST_WEEK_END = settings.LAST_WEEK_END
 
 
 def home(request):
+    """
+    Function checks if a user is logged in then render the home page, otherwise redirect to login page.
+    """
     if request.user.username:
         portfolios = Portfolio.objects.filter(user__username=request.user.username).all().values('name')
         return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
@@ -21,9 +24,12 @@ def home(request):
 
 
 class Dashboard(LoginRequiredMixin, TemplateView):
-
+    """
+    Application basic view. Verify that the current user is authenticated.
+    If user is authenticated render a templet based on stock/index in request.
+    """
     def get_template_names(self):
-        ticker = (self.kwargs.get('ticker')).upper()
+        ticker: str = (self.kwargs.get('ticker')).upper()
         if ticker[:3] == 'WIG':
             return ['dashboard/wig.html']
         return ['dashboard/stock_detail.html']
