@@ -3,6 +3,7 @@ import pandas as pd
 
 
 def stock_chart(data):
+    """ Function to create a candlestick chart using plotly."""
     data = pd.DataFrame.from_records(data.values_list('date', 'open_price', 'max_price', 'min_price', 'close_price'),
                                      columns=['date', 'open_price', 'max_price', 'min_price', 'close_price'])
     fig = go.Figure(data=[go.Candlestick(x=data['date'],

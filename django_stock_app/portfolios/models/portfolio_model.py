@@ -15,6 +15,7 @@ class Portfolio(models.Model):
         return reverse('portfolio-detail', kwargs={'portfolio': self.name})
 
     @property
-    def portfolio_days(self):
+    def portfolio_days(self) -> int:
+        """ Property calculates number of days since portfolio has been created."""
         portfolio_days = datetime.today().date() - self.create_date
         return portfolio_days.days

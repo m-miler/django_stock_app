@@ -19,7 +19,8 @@ class StockPrices(models.Model):
     def __str__(self):
         return f"{self.company_abbreviation.company_abbreviation}_{self.date.strftime('%Y-%m-%d')}"
 
-    def get_weekly_price(self, field_name):
+    def get_weekly_price(self, field_name) -> Decimal or None:
+        """ Function to fetch the last week price. """
         last_week_price = StockPrices.objects.filter(models.Q(date=settings.LAST_WEEK_END) &
                                                      models.Q(company_abbreviation__company_abbreviation=
                                                               self.company_abbreviation)).first()
@@ -32,21 +33,26 @@ class StockPrices(models.Model):
         return (Decimal(weekly_change) * 100).quantize(Decimal('0.01'))
 
     @property
-    def close_weekly_change(self):
+    def close_weekly_change(self) -> Decimal or None:
+        """ Property calculates the weekly percentage change for close_price."""
         return self.get_weekly_price('close_price')
 
     @property
     def open_weekly_change(self):
+        """ Property calculates the weekly percentage change for open_price."""
         return self.get_weekly_price('open_price')
 
     @property
     def max_weekly_change(self):
+        """ Property calculates the weekly percentage change for max_price."""
         return self.get_weekly_price('max_price')
 
     @property
     def min_weekly_change(self):
+        """ Property calculates the weekly percentage change for min_price."""
         return self.get_weekly_price('min_price')
 
     @property
     def volume_weekly_change(self):
+        """ Property calculates the weekly percentage change for volume."""
         return self.get_weekly_price('volume')

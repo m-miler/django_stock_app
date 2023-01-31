@@ -24,9 +24,9 @@ def get_stock_data(company, start_day) -> dict:
 
 def save_data(company, start_day) -> None:
     """
-    Function to save web scrap data to the stock_price database.
-    :param company: Company abbreviation passed from celery task
-    :param start_day: Date from which we want to get data
+    Function to save web scrapped data to the stock_price database.
+    :param company: company abbreviation passed from celery task
+    :param start_day: date from which we want to get data
     :return: None
     """
     data = get_stock_data(company, start_day)
