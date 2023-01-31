@@ -196,8 +196,8 @@ REST_FRAMEWORK = {
 }
 
 # Application Today and Last Week Dates
-TODAY = '2022-12-29' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
-LAST_WEEK_END = '2022-12-22' #(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
+TODAY = '2023-01-30' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
+LAST_WEEK_END = '2023-01-23' #(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
 
 # Twitter API credentials
 API_KEY = env('API_KEY')
