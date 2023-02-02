@@ -7,7 +7,7 @@ import requests
 DB_COLUMNS = ['date', 'open_price', 'max_price', 'min_price', 'close_price', 'volume']
 
 
-def get_stock_data(company, start_day) -> dict:
+def get_stock_data(company: str, start_day) -> dict[str, str | int]:
     """
     Function with web scrapping code to get the stock price data.
     :param company: Company abbreviation passed from celery task
@@ -22,7 +22,7 @@ def get_stock_data(company, start_day) -> dict:
     return data
 
 
-def save_data(company, start_day) -> None:
+def save_data(company: str, start_day) -> None:
     """
     Function to save web scrapped data to the stock_price database.
     :param company: company abbreviation passed from celery task
@@ -36,7 +36,7 @@ def save_data(company, start_day) -> None:
 
 
 @shared_task
-def price_db_update(*args, **kwargs) -> None:
+def price_db_update(*args: tuple[any, ...], **kwargs: any) -> None:
     """
     Celery task to web scrapping stock prices for each company in a stock database.
     Task starts automatically at 24 o'clock and get data form the previous day.
