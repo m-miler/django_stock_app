@@ -1,3 +1,4 @@
+import string
 import factory
 from .models.stock_prices_model import StockPrices
 from .models.companies_model import StockCompanies
@@ -10,7 +11,7 @@ class CompanyFactory(factory.django.DjangoModelFactory):
 
     company_full_name = factory.Faker('pystr', min_chars=3, max_chars=10)
     company_abbreviation = factory.Faker('pystr_format', string_format='???',
-                                         letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+                                         letters=string.ascii_uppercase)
     index = 'WIG20'
 
 
