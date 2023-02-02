@@ -11,7 +11,7 @@
     {% if stock_price.open_weekly_change > 0 %}
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.open_weekly_change}} %</i> From last Week</span>
     {% else %}
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.open_weekly_change}} %</i> From last Week</span>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>{{stock_price.open_weekly_change}} %</i> From last Week</span>
     {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -20,7 +20,7 @@
     {% if stock_price.max_weekly_change > 0 %}
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.max_weekly_change}} %</i> From last Week</span>
     {% else %}
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.max_weekly_change}} %</i> From last Week</span>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>{{stock_price.max_weekly_change}} %</i> From last Week</span>
     {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -29,7 +29,7 @@
     {% if stock_price.min_weekly_change > 0 %}
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.min_weekly_change}} %</i> From last Week</span>
     {% else %}
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.min_weekly_change}} %</i> From last Week</span>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>{{stock_price.min_weekly_change}} %</i> From last Week</span>
     {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -38,7 +38,7 @@
     {% if stock_price.close_weekly_change > 0 %}
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.close_weekly_change}} %</i> From last Week</span>
     {% else %}
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.close_weekly_change}} %</i> From last Week</span>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>{{stock_price.close_weekly_change}} %</i> From last Week</span>
     {% endif %}
   </div>
   <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -47,7 +47,7 @@
     {% if stock_price.volume_weekly_change > 0 %}
       <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>{{stock_price.volume_weekly_change}} %</i> From last Week</span>
     {% else %}
-      <span class="count_bottom"><i class="red"><i class="fa fa-sort-asc"></i>{{stock_price.volume_weekly_change}} %</i> From last Week</span>
+      <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>{{stock_price.volume_weekly_change}} %</i> From last Week</span>
     {% endif %}
   </div>
 </div>
