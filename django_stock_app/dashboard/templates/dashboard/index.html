@@ -26,7 +26,7 @@
     <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+    <link href="{% static 'build/css/custom.css' %}" rel="stylesheet">
   </head>
 
   <body class="nav-md">
@@ -85,13 +85,28 @@
                       {% endfor %}
                       {% endblock %}
                     </ul>
-
                   </li>
                 </ul>
               </div>
             </div>
             <!-- /sidebar menu -->
-            {% endif %}
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Home" href="{% url 'home' %}">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Profile" href="{% url 'profile' %}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Create Portfolio" href="{% url 'portfolio-create' %}">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{% url 'logout' %}">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          {% endif %}
           </div>
         </div>
 
@@ -130,7 +145,7 @@
 
 
         <!-- page content -->
-        <div class="right_col" role="main">
+        <div  class="right_col"  role="main">
             {% if messages %}
                 {% for message in messages %}
                     <div class = "alert alert-{{ message.tags }}">
@@ -144,17 +159,18 @@
 
         </div>
         <!-- /page content -->
-      </div>
-    </div>
 
         <!-- footer content -->
-<!--        <footer class="footer_fixed">-->
-<!--          <div class="pull-right">-->
-<!--            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>-->
-<!--          </div>-->
-<!--          <div class="clearfix"></div>-->
-<!--        </footer>-->
+        <footer>
+          <div class="pull-right">
+            Stock Application by <a href="https://github.com/m-miler">Mateusz Miler</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
         <!-- /footer content -->
+
+      </div>
+    </div>
 
 
     {% block script %}
