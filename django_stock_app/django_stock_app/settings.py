@@ -93,7 +93,14 @@ TEMPLATES = [
 if env('DEVELOPMENT') and env('DEBUG'):
     MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
     INSTALLED_APPS.append('silk')
+    # Application Today and Last Week Dates
+    TODAY = '2023-01-30'
+    LAST_WEEK_END = '2023-01-23'
 
+else:
+    from datetime import datetime, timedelta
+    TODAY = (datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
+    LAST_WEEK_END = (datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
 
 WSGI_APPLICATION = 'django_stock_app.wsgi.application'
 
@@ -167,8 +174,8 @@ LOGIN_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
-CELERY_RESULT_BACKEND = 'rpc://'
+CELERY_BROKER_URL = env('CELERY_BROKER')
+CELERY_RESULT_BACKEND = env('CELERY_BROKER')
 
 EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
@@ -188,9 +195,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
-# Application Today and Last Week Dates
-TODAY = '2023-01-30' #(datetime.date(datetime.today()) - timedelta(days=1)).strftime('%Y-%m-%d')
-LAST_WEEK_END = '2023-01-23' #(datetime.date(datetime.today()) - timedelta(days=7)).strftime('%Y-%m-%d')
 
 # Twitter API credentials
 API_KEY = env('API_KEY')

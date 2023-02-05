@@ -1,6 +1,8 @@
 services:
+
   db:
     image: postgres
+    container_name: postgres_db
     restart: always
     ports:
       - "5000:5432"
@@ -8,8 +10,10 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
   web:
     build: .
+    container_name: stock_app
     command:
       bash -c " cd django_stock_app && python manage.py migrate && 
       python manage.py create_admin &&
@@ -21,3 +25,41 @@ services:
       - "8080:8080"
     depends_on:
       - db
+      - redis
+
+  redis:
+      image: redis:7.0.8-alpine
+      expose:
+        - 6379
+      healthcheck:
+          test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+
+  celery_worker:
+    build: .
+    restart: always
+    container_name: celery-worker
+    command: bash -c " cd django_stock_app && celery -A django_stock_app worker --loglevel=INFO -P eventlet "
+    volumes:
+      - .:/app
+    links:
+      - web
+      - redis
+    depends_on:
+      - web
+      - redis
+
+  celery_beat:
+    build: .
+    restart: always
+    container_name: celery-beat
+    command: bash -c " cd django_stock_app && celery -A django_stock_app beat "
+    volumes:
+      - .:/app
+    links:
+      - web
+      - db
+      - redis
+    depends_on:
+      - web
+      - db
+      - redis

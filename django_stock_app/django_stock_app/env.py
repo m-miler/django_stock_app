@@ -18,6 +18,8 @@ env = environ.Env(
     BEARER_TOKEN=(str, ''),
     ACCESS_TOKEN=(str, ''),
     ACCESS_TOKEN_SECRET=(str, ''),
+    # Celery
+    CELERY_BROKER=(str, "redis://redis:6379/0")
 )
 
 
