@@ -1,4 +1,3 @@
-from django.conf import settings
 import tweepy
 from django_stock_app.env import env
 
