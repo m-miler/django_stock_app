@@ -11,12 +11,15 @@ def portfolio_chart(data):
     df_data.sort_values(ascending=False, by=['pricing'], inplace=True)
 
     fig = px.bar(df_data, x='stock', y='pricing',
-                 color_discrete_sequence=[px.colors.qualitative.G10[5]])
+                 color='stock',
+                 color_discrete_sequence=px.colors.qualitative.T10,
+                 )
     fig.update_layout(height=450,
                       yaxis_title='Close Price in PLN',
                       xaxis_title='',
                       paper_bgcolor='rgb(250,250,250)',
-                      plot_bgcolor='rgb(250,250,250)'
+                      plot_bgcolor='rgb(250,250,250)',
+                      showlegend=False
                       )
 
     chart = fig.to_html(config=dict(displayModeBar=False))
