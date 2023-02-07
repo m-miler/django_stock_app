@@ -18,7 +18,7 @@ def home(request):
     """
     if request.user.username:
         portfolios = Portfolio.objects.filter(user__username=request.user.username).all().values('name')
-        return render(request, 'dashboard/index.html', context={'portfolios': portfolios})
+        return render(request, 'dashboard/home.html', context={'portfolios': portfolios})
     else:
         return redirect('login')
 
