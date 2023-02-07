@@ -52,10 +52,15 @@ Set `POSTGRES=False` in `.env` if you want to run SQLite3.
 
 ## Application view
 
+Home Page <br>
+<img src="https://user-images.githubusercontent.com/62297597/217302367-2d3f8136-1134-4167-96fc-d51f54db4d95.jpg"></img>
+
 WIG20 <br>
 <img src="https://user-images.githubusercontent.com/62297597/217300581-d39ebbf4-980d-4072-a97e-07224058659f.jpg"></img>
 
 Portfolio <br>
 <img src="https://user-images.githubusercontent.com/62297597/217301278-4fb0630b-4447-4262-b032-fb64031bb7c1.JPG"></img>
+
+Profile <br>
 
 
