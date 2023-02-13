@@ -1,10 +1,12 @@
-from celery import shared_task
 import datetime
-from .models.companies_model import StockCompanies
-from api.serializers.stock_price_serializer import StockPricesSerializer
-import requests
 
-DB_COLUMNS = ['date', 'open_price', 'max_price', 'min_price', 'close_price', 'volume']
+import requests
+from api.serializers.stock_price_serializer import StockPricesSerializer
+from celery import shared_task
+
+from .models.companies import StockCompanies
+
+DB_COLUMNS = ["date", "open_price", "max_price", "min_price", "close_price", "volume"]
 
 
 def get_stock_data(company: str, start_day) -> dict[str, str | int]:
@@ -14,11 +16,11 @@ def get_stock_data(company: str, start_day) -> dict[str, str | int]:
     :param start_day: Date from which we want to get data
     :return: dict
     """
-    url = f'https://stooq.pl/q/d/l/?s={company}&d1={start_day}&d2={start_day}&i=d'
-    data = {'company_abbreviation': company}
+    url = f"https://stooq.pl/q/d/l/?s={company}&d1={start_day}&d2={start_day}&i=d"
+    data = {"company_abbreviation": company}
 
-    response = requests.get(url=url).content.decode('utf-8').strip().split('\r\n')
-    data.update(dict(zip(DB_COLUMNS, response[1].split(','))))
+    response = requests.get(url=url).content.decode("utf-8").strip().split("\r\n")
+    data.update(dict(zip(DB_COLUMNS, response[1].split(","))))
     return data
 
 
@@ -42,11 +44,9 @@ def price_db_update(*args: tuple[any, ...], **kwargs: any) -> None:
     Task starts automatically at 24 o'clock and get data form the previous day.
     """
 
-    companies = StockCompanies.objects.values('company_abbreviation')
-    start_day = (datetime.date.today() - datetime.timedelta(days=1)).strftime('%Y%m%d')
+    companies = StockCompanies.objects.values_list("company_abbreviation", flat=True)
+    start_day = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y%m%d")
 
     for abbreviation in companies:
-        company = abbreviation.get('company_abbreviation')
+        company = abbreviation.get("company_abbreviation")
         save_data(company, start_day)
-
-

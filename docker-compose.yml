@@ -15,9 +15,9 @@ services:
     build: .
     container_name: stock_app
     command:
-      bash -c " cd django_stock_app && python manage.py migrate && 
+      bash -c " cd django_stock_app && python manage.py migrate &&
       python manage.py create_admin &&
-      python manage.py populate_db && 
+      python manage.py populate_db &&
       python manage.py runserver 0.0.0.0:8080"
     volumes:
       - .:/app

@@ -7,19 +7,17 @@ env = environ.Env(
     DEVELOPMENT=(bool, False),
     # POSTGRES
     POSTGRES=(bool, True),
-    DB_NAME=(str, 'postgres'),
-    DB_USER=(str, 'postgres'),
-    DB_PASSWORD=(str, 'postgres'),
-    DB_HOST=(str, 'db'),
-    DB_PORT=(str, '5432'),
+    DB_NAME=(str, "postgres"),
+    DB_USER=(str, "postgres"),
+    DB_PASSWORD=(str, "postgres"),
+    DB_HOST=(str, "db"),
+    DB_PORT=(str, "5432"),
     # Twitter
-    API_KEY=(str, ''),
-    API_KEY_SECRET=(str, ''),
-    BEARER_TOKEN=(str, ''),
-    ACCESS_TOKEN=(str, ''),
-    ACCESS_TOKEN_SECRET=(str, ''),
+    API_KEY=(str, ""),
+    API_KEY_SECRET=(str, ""),
+    BEARER_TOKEN=(str, ""),
+    ACCESS_TOKEN=(str, ""),
+    ACCESS_TOKEN_SECRET=(str, ""),
     # Celery
-    CELERY_BROKER=(str, "redis://redis:6379/0")
+    CELERY_BROKER=(str, "redis://redis:6379/0"),
 )
-
-

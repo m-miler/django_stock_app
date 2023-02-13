@@ -9,8 +9,8 @@
 <details>
 <summary>Click here to see general information about <b> Django Stock Application</b></summary>
 Stock Application is a django application project in which we have the possibility to create investment portfolios,
-follow current stock prices and tweets for stock exchange companies. The application allows to automatically download 
-data regarding the stock prices and save them into database using celery schedule. 
+follow current stock prices and tweets for stock exchange companies. The application allows to automatically download
+data regarding the stock prices and save them into database using celery schedule.
 </details>
 
 ## Technologies
@@ -64,4 +64,3 @@ Portfolio <br>
 
 Profile <br>
 <img src="https://user-images.githubusercontent.com/62297597/217302618-dccc598f-6503-4d5f-9f9d-110993acc301.jpg"></img>
-
