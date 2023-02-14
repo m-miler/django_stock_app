@@ -3211,5 +3211,3 @@ each file, but can result in older ZIP programs not being able to extract
 files.  Use of the 0x6375 and 0x7075 records will result in a ZIP file
 that should always be readable by older ZIP programs, but requires more
 storage per file to write file name and/or file comment fields.
-
-

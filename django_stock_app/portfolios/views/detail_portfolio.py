@@ -22,7 +22,7 @@ class PortfolioDetailed(LoginRequiredMixin, DetailView):
         portfolio_stocks_queryset = PortfolioStocks.objects.filter(
             portfolio_id=portfolio_id
         ).all()
-        portfolios = self.model.objects.filter(user=self.request.user).all()
+        portfolios = self.model.objects.filter(user=self.request.user)
         portfolio_detail = self.model.objects.filter(
             portfolio_id=portfolio_id, user=self.request.user
         ).first()

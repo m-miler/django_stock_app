@@ -550,4 +550,3 @@ Here are the available methods:
         </td>
     </tr>
 </table>
-
