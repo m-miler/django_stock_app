@@ -25,6 +25,7 @@ data regarding the stock prices and save them into database using celery schedul
 <li>Factory-Boy</li>
 <li>Requests</li>
 <li>Tweepy</li>
+<li>Pre-Commit</li>
 </ul>
 
 ## Environment
