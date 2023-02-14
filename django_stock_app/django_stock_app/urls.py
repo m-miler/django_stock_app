@@ -7,7 +7,7 @@ from users.forms.login_form import CustomLoginForm
 from users.forms.reset_password_confirmation_form import \
     CustomPasswordConfirmationForm
 from users.forms.reset_password_form import CustomPasswordResetForm
-from users.views.profile import edit_profile, profile
+from users.views.profile import EditProfile, Profile
 from users.views.register import register
 
 urlpatterns = [
@@ -58,7 +58,7 @@ urlpatterns = [
         ),
         name="password_reset_confirm",
     ),
-    path("profile/", profile, name="profile"),
-    path("profile/edit", edit_profile, name="edit-profile"),
+    path("profile/", Profile.as_view(), name="profile"),
+    path("profile/edit", EditProfile.as_view(), name="edit-profile"),
     path("silk/", include("silk.urls", namespace="silk")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
