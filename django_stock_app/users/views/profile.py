@@ -1,12 +1,12 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
-from django.views.generic import ListView, UpdateView
+from django.views.generic import DetailView, UpdateView
 from portfolios.models.portfolio_model import Portfolio
 from users.forms.profile_update_form import ProfileUpdateForm, UserUpdateForm
 
 
-class Profile(LoginRequiredMixin, ListView):
+class Profile(LoginRequiredMixin, DetailView):
     model = Portfolio
     template_name = "users/profile.html"
 
